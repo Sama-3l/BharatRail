@@ -17,11 +17,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  Functions func = Functions();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Functions().navigateToHome(context, widget.theme);
+    func.navigateToHome(context, widget.theme);
   }
 
   @override
