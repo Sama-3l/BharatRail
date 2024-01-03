@@ -24,6 +24,8 @@ Map<int, String> seatTypeIndex = {
   3 : "SL/SU" 
 };
 
+const int numberOfCompartmentsInBogey = 9;
+
 const double fontSizeHeading = 32.0;
 const double fontSizeLarge = 24.0;
 const double fontSizeMedium = 16.0;

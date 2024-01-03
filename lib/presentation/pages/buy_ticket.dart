@@ -24,15 +24,21 @@ class _BuyTicketState extends State<BuyTicket> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: widget.theme.surfaceBlack,
-        body: BlocBuilder<ClassUpdateCubit, ClassUpdateState>(
-          builder: (context, state) {
-            return ListView(
-                children: wg.loadBuyTicketsListView(
-                    widget.user, train, widget.theme));
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        widget.user.tickets.removeLast();
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: widget.theme.surfaceBlack,
+          body: BlocBuilder<ClassUpdateCubit, ClassUpdateState>(
+            builder: (context, state) {
+              return ListView(
+                  children: wg.loadBuyTicketsListView(
+                      widget.user, train, widget.theme));
+            },
+          ),
         ),
       ),
     );

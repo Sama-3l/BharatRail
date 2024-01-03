@@ -6,4 +6,6 @@ class TrainUpdatedCubit extends Cubit<TrainUpdatedState> {
   TrainUpdatedCubit() : super(TrainUpdatedInitial());
 
   onTrainUpdated() => emit(TrainChangedState());
+
+  notFound() => emit(NotFoundState());
 }

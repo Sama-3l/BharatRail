@@ -42,6 +42,7 @@ class Functions {
         depTime: DateTime.now());
   }
 
+  // Called when initializing Trains object (trains.dart)
   List<Class> initiateClasses() {
     List<Class> classes = [];
     for (var thisClass in allClasses.entries) {
@@ -53,7 +54,7 @@ class Functions {
       // Number of seats on one side * 2 * 9 * Number of total coaches in class = 432 seats in 3rd AC from B1 to B6)
       int numberOfSeats = thisClass.value *
           2 *
-          9 *
+          numberOfCompartmentsInBogey *
           numberOfCoachesInThisClass; // This calculates how much seats each class has
 
       classes.add(Class(
@@ -70,6 +71,7 @@ class Functions {
     return classes;
   }
 
+  // 5 lines above us
   List<Coach> initiateCoaches(String thisClass, int dim) {
     List<Coach> coaches = [];
     int numberOfCoaches = int.parse(keyForClass[thisClass]![1]);
@@ -82,6 +84,7 @@ class Functions {
     return coaches;
   }
 
+  // SHOWS DATETIME PICKER (city_select_date_widget.dart)
   Future<void> selectDate(
       BuildContext context, User user, DarkTheme theme) async {
     final DateTime? picked = await showDatePicker(
@@ -121,6 +124,7 @@ class Functions {
   // OnChanged of DropDownMenus (city_select_widget.dart)
   void onCitySelection(
       BuildContext context, User user, String? newValue, bool depCity) {
+
     // Checks if the code is supposed to change the departing or arrival city
     // Then checks if the user is trying to set both the cities as same and avoids that
     if (depCity) {
@@ -132,6 +136,7 @@ class Functions {
         user.arrCity.name = newValue!;
       }
     }
+
     BlocProvider.of<ExchangeCityCubit>(context).onToggleButton();
   }
 
@@ -175,7 +180,11 @@ class Functions {
           TicketGridItem(
               index: p,
               theme: theme,
-              padding: ((p / allClasses[user.tickets[0].seatClass]!) % 2).floor() != 0
+              padding: ((p / allClasses[user.tickets[0].seatClass]!) % 2)
+                              .floor() !=
+                          0 &&
+                      (p / allClasses[user.tickets[0].seatClass]!).floor() !=
+                          (2 * numberOfCompartmentsInBogey - 1)
                   ? setPadding(left: 8, right: 8, bottom: 48)
                   : setPadding(left: 8, right: 8, bottom: 16),
               booked: false,

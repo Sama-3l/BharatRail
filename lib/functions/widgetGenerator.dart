@@ -40,17 +40,17 @@ class WidgetGenerator {
   // Check and render element such that user knows they already selected this city (city_select_widget.dart)
   Widget getDropDownItemText(
       City city, bool depCity, DarkTheme theme, User user) {
-    if (depCity) {
-      return Text(city.name,
-          style: urbanist(user.arrCity.name != city.name
-              ? theme.labelWhite
-              : theme.labelWhite.withOpacity(0.5)));
-    } else {
-      return Text(city.name,
-          style: urbanist(user.depCity.name != city.name
-              ? theme.labelWhite
-              : theme.labelWhite.withOpacity(0.5)));
-    }
+      if (depCity) {
+        return Text(city.name,
+            style: urbanist(user.arrCity.name != city.name
+                ? theme.labelWhite
+                : theme.labelWhite.withOpacity(0.5)));
+      } else {
+        return Text(city.name,
+            style: urbanist(user.depCity.name != city.name
+                ? theme.labelWhite
+                : theme.labelWhite.withOpacity(0.5)));
+      }
   }
 
   // Sets the font along with color depending on the type of tickets available ()

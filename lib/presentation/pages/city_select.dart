@@ -2,9 +2,11 @@
 
 import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
+import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/data/repostitories/trains.dart';
+import 'package:bharatrail/functions/const_functions.dart';
 import 'package:bharatrail/functions/widgetGenerator.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +43,23 @@ class _CitySelectState extends State<CitySelect> {
                   theme: widget.theme,
                   cities: widget.allCities,
                   user: widget.user)
+            ]);
+          } else if (state is NotFoundState) {
+            return CustomScrollView(slivers: [
+              SlAppBar(
+                  theme: widget.theme,
+                  cities: widget.allCities,
+                  user: widget.user),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Center(
+                    child: Text("No Trains Found".toUpperCase(),
+                        style: urbanist(widget.theme.labelWhite,
+                            fontsize: fontSizeMedium, weight: FontWeight.w700)),
+                  ),
+                ),
+              )
             ]);
           } else {
             return CustomScrollView(

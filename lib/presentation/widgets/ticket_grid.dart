@@ -38,14 +38,14 @@ class _TicketGridState extends State<TicketGrid> {
         decoration: BoxDecoration(
             color: widget.theme.surfaceElevated,
             borderRadius: BorderRadius.circular(32)),
-        height: MediaQuery.of(context).size.height * 2,
+        height: MediaQuery.of(context).size.height * 1.95,
         child: Container(
             padding: setPadding(top: 24, left: 0, right: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: setPadding(right: 0),
+                  padding: setPadding(left: 24),
                   child: Text(widget.currCoach.coachNumber.toString(),
                       style: urbanist(widget.theme.labelWhite,
                           fontsize: fontSizeHeading, weight: FontWeight.w800)),

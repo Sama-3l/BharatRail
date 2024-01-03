@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/functions/const_functions.dart';

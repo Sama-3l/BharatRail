@@ -99,10 +99,31 @@ class _SlAppBarState extends State<SlAppBar> {
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
                       onPressed: () {
-                        // FIND TRAINS CORRESPONDING TO 
-                        // THE FILTERS SET
-                        // HERE
-                        BlocProvider.of<TrainUpdatedCubit>(context).onTrainUpdated();
+                        // This is just cause I can't build a searching algorithm
+                        // And add multiple trains to test it on.
+                        // I can do that but that wasn't the
+                        // object here so I left it untouched right now
+                        bool auth = false;
+                        List<String> authCities = [
+                          "New Delhi",
+                          "Chennai",
+                          "Jhansi"
+                        ];
+                        auth = authCities.contains(widget.user.arrCity.name) &&
+                            authCities.contains(widget.user.depCity.name);
+                        if (!auth) {
+                          final snackBar = SnackBar(
+                            content: Text(
+                                'Choose cities among New Delhi, Chennai, Jhansi please',
+                                style: urbanist(widget.theme.labelWhite)),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          BlocProvider.of<TrainUpdatedCubit>(context)
+                              .notFound();
+                        } else {
+                          BlocProvider.of<TrainUpdatedCubit>(context)
+                              .onTrainUpdated();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: widget.theme.uiBlue,
@@ -110,7 +131,8 @@ class _SlAppBarState extends State<SlAppBar> {
                               borderRadius: BorderRadius.circular(24))),
                       child: Text("LOAD TRAINS",
                           style: urbanist(widget.theme.labelWhite,
-                              fontsize: fontSizeMedium, weight: FontWeight.w600)),
+                              fontsize: fontSizeMedium,
+                              weight: FontWeight.w600)),
                     ),
                   )
                 ],
