@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:bharatrail/assets/svgs/svg_code.dart';
-import 'package:bharatrail/business_logic/cubits/cubit/change_date_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/functions/const_functions.dart';

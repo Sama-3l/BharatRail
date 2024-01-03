@@ -10,4 +10,7 @@ class DarkTheme extends Themes {
   Color surfaceGrey1 = const Color(0xff373739);
   Color labelWhite = const Color(0xffffffff);
   Color uiBlue = const Color(0xff0385ff);
+  Color uiRed = const Color(0xffFE4336);
+  Color uiYellow = const Color(0xffFED702);
+  Color surfaceGreen = const Color(0xff2DD257);
 }

@@ -2,6 +2,7 @@
 
 import 'package:bharatrail/assets/svgs/svg_code.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
@@ -38,6 +39,7 @@ class _SlAppBarState extends State<SlAppBar> {
               widget.theme.surfaceElevated), // Set the status bar color
       backgroundColor: Colors.transparent,
       toolbarHeight: MediaQuery.of(context).size.height * 0.52,
+      floating: true,
       title: Padding(
         padding: EdgeInsets.only(bottom: 8.0),
         child: Container(
@@ -95,7 +97,9 @@ class _SlAppBarState extends State<SlAppBar> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        BlocProvider.of<TrainUpdatedCubit>(context).onTrainUpdated();
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: widget.theme.uiBlue,
                           shape: RoundedRectangleBorder(
