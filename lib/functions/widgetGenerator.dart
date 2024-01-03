@@ -1,12 +1,19 @@
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
+import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/data/repostitories/trains.dart';
 import 'package:bharatrail/functions/const_functions.dart';
+import 'package:bharatrail/presentation/widgets/buy_tickets_header.dart';
+import 'package:bharatrail/presentation/widgets/city_select_date_widget.dart';
+import 'package:bharatrail/presentation/widgets/select_coach_drop_down.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
+import 'package:bharatrail/presentation/widgets/train_coaches.dart';
+import 'package:bharatrail/presentation/widgets/train_select_class.dart';
 import 'package:bharatrail/presentation/widgets/train_select_widget.dart';
+import 'package:bharatrail/presentation/widgets/train_time_bar.dart';
 import 'package:flutter/material.dart';
 
 class WidgetGenerator {
@@ -44,6 +51,7 @@ class WidgetGenerator {
     }
   }
 
+  // Sets the font along with color depending on the type of tickets available ()
   Widget renderClassMetrics(List<int> metrics, DarkTheme theme) {
     if (metrics[0] != 0) {
       return Text("AVL ${metrics[0]}",
@@ -51,11 +59,59 @@ class WidgetGenerator {
               fontsize: fontSizeMedium, weight: FontWeight.w500));
     } else if (metrics[1] != 0) {
       return Text("RAC ${metrics[1]}",
-          style:
-              urbanist(theme.uiYellow, fontsize: fontSizeMedium, weight: FontWeight.w500));
+          style: urbanist(theme.uiYellow,
+              fontsize: fontSizeMedium, weight: FontWeight.w500));
     } else {
       return Text("WL ${metrics[2]}",
-          style: urbanist(theme.uiRed, fontsize: fontSizeMedium, weight: FontWeight.w500));
+          style: urbanist(theme.uiRed,
+              fontsize: fontSizeMedium, weight: FontWeight.w500));
     }
+  }
+
+  List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme) {
+    List<Widget> children = [];
+    children.add(BuyTicketsHeader(user: user, train: train, theme: theme));
+    children.add(Padding(
+      padding: setPadding(top: 8),
+      child: TrainTimeBar(theme: theme, train: train, user: user),
+    ));
+    children.add(CitySelectCalender(
+        theme: theme, user: user, transparentBackground: true));
+    children.add(Padding(
+      padding: setPadding(top: 8),
+      child: SelectClass(
+          train: train, theme: theme, user: user, buyTicketPage: true),
+    ));
+
+    children.add(Padding(
+        padding: setPadding(top: 8),
+        child: Row(
+          textBaseline: TextBaseline.alphabetic,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          children: [
+            Text(
+              user.tickets[0].seatClass,
+              style: urbanist(theme.labelWhite,
+                  fontsize: fontSizeLarge, weight: FontWeight.w500),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: renderClassMetrics(
+                  train
+                      .classes[allClasses.keys
+                          .toList()
+                          .indexOf(user.tickets[0].seatClass)]
+                      .metrics,
+                  theme),
+            ),
+          ],
+        )));
+    children.add(SelectCoachDropDownMenu(
+        theme: theme,
+        currClass: train.classes[
+            allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
+        ticket: user.tickets[0]));
+    children.add(TrainGrid(user: user, theme: theme));
+    return children;
   }
 }
