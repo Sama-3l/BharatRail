@@ -12,10 +12,15 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:intl/intl.dart';
 
 class CitySelectCalender extends StatelessWidget {
-  CitySelectCalender({super.key, required this.theme, required this.user});
+  CitySelectCalender(
+      {super.key,
+      required this.theme,
+      required this.user,
+      this.transparentBackground = false});
 
   DarkTheme theme;
   User user;
+  bool transparentBackground;
   Functions func = Functions();
 
   @override
@@ -31,7 +36,9 @@ class CitySelectCalender extends StatelessWidget {
               child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: theme.surfaceGrey2,
+                      color: transparentBackground
+                          ? Colors.transparent
+                          : theme.surfaceGrey2,
                       borderRadius: BorderRadius.circular(8)),
                   height: MediaQuery.of(context).size.height * 0.06,
                   child: Row(

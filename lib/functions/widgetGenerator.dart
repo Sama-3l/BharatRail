@@ -1,4 +1,5 @@
 import 'package:bharatrail/constants/colors.dart';
+import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
@@ -19,7 +20,7 @@ class WidgetGenerator {
       padding: setPadding(top: 8, bottom: 16),
       child: Text("TRAINS",
           style: urbanist(theme.labelWhite,
-              fontsize: 32, weight: FontWeight.w600)),
+              fontsize: fontSizeHeading, weight: FontWeight.w600)),
     )));
     for (var train in trains.trains) {
       slivers.add(CurrentTrainTile(train: train, theme: theme, user: user));
@@ -47,14 +48,14 @@ class WidgetGenerator {
     if (metrics[0] != 0) {
       return Text("AVL ${metrics[0]}",
           style: urbanist(theme.surfaceGreen,
-              fontsize: 16, weight: FontWeight.w500));
+              fontsize: fontSizeMedium, weight: FontWeight.w500));
     } else if (metrics[1] != 0) {
       return Text("RAC ${metrics[1]}",
           style:
-              urbanist(theme.uiYellow, fontsize: 16, weight: FontWeight.w500));
+              urbanist(theme.uiYellow, fontsize: fontSizeMedium, weight: FontWeight.w500));
     } else {
       return Text("WL ${metrics[2]}",
-          style: urbanist(theme.uiRed, fontsize: 16, weight: FontWeight.w500));
+          style: urbanist(theme.uiRed, fontsize: fontSizeMedium, weight: FontWeight.w500));
     }
   }
 }

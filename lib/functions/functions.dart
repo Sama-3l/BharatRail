@@ -1,14 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
 import 'package:bharatrail/data/models/class.dart';
 import 'package:bharatrail/data/models/coach.dart';
+import 'package:bharatrail/data/models/ticket.dart';
+import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
+import 'package:bharatrail/presentation/pages/buy_ticket.dart';
 import 'package:bharatrail/presentation/pages/city_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,5 +130,35 @@ class Functions {
       }
     }
     BlocProvider.of<ExchangeCityCubit>(context).onToggleButton();
+  }
+
+  // Toggles on selection between default and toggle Value (train_class_tile.dart)
+  dynamic toggleClassButton(User user, Class currClass, dynamic defaultDynamic,
+      dynamic toggleDynamic) {
+    return user.tickets.isEmpty
+        ? defaultDynamic
+        : currClass.name == user.tickets[0].seatClass
+            ? toggleDynamic
+            : defaultDynamic;
+  }
+
+  // On selecting class of Ticket ()
+  void onSelectingClass(Class currClass, Train train, bool buyTicketPage,
+      User user, BuildContext context, DarkTheme theme) {
+    Ticket newTicket = Ticket(
+        seatClass: currClass.name,
+        train: train,
+        coach: train.classes
+            .firstWhere((element) => currClass.name == element.name)
+            .coaches[0]);
+    if (buyTicketPage) {
+      user.tickets.removeLast();
+    }
+    user.tickets.add(newTicket);
+    BlocProvider.of<ClassUpdateCubit>(context).onClassChange();
+    if (!buyTicketPage) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BuyTicket(user: user, theme: theme)));
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/data/repostitories/trains.dart';
 import 'package:bharatrail/functions/widgetGenerator.dart';
+import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,9 +35,18 @@ class _CitySelectState extends State<CitySelect> {
       backgroundColor: widget.theme.surfaceBlack,
       body: BlocBuilder<TrainUpdatedCubit, TrainUpdatedState>(
         builder: (context, state) {
-          return CustomScrollView(
-              slivers: wg.generateTrainsList(context, widget.theme,
-                  widget.allCities, widget.user, trains));
+          if (state is TrainUpdatedInitial) {
+            return CustomScrollView(slivers: [
+              SlAppBar(
+                  theme: widget.theme,
+                  cities: widget.allCities,
+                  user: widget.user)
+            ]);
+          } else {
+            return CustomScrollView(
+                slivers: wg.generateTrainsList(context, widget.theme,
+                    widget.allCities, widget.user, trains));
+          }
         },
       ),
     );

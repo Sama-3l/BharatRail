@@ -1,10 +1,11 @@
+import 'package:bharatrail/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 // File to store constants required across the application with slight modifications
 
 // Set fontstyle for the application
 TextStyle urbanist(Color color,
-    {double? fontsize = 16, FontWeight? weight = FontWeight.w400}) {
+    {double? fontsize = fontSizeMedium, FontWeight? weight = FontWeight.w400}) {
   return TextStyle(
       color: color,
       fontFamily: 'Urbanist',

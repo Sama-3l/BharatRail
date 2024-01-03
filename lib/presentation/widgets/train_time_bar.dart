@@ -14,7 +14,7 @@ class TrainTimeBar extends StatelessWidget {
       required this.user});
 
   DarkTheme theme;
-  Train train;
+  Train? train;
   User user;
 
   @override
@@ -24,7 +24,7 @@ class TrainTimeBar extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         TrainTime(
             theme: theme,
-            time: train.citiesCovered.firstWhere((element) {
+            time: train!.citiesCovered.firstWhere((element) {
               return element.city.name == user.depCity.name;
             }).departure,
             dep: true),
@@ -34,7 +34,7 @@ class TrainTimeBar extends StatelessWidget {
             color: theme.surfaceGrey1),
         TrainTime(
             theme: theme,
-            time: train.citiesCovered.firstWhere((element) {
+            time: train!.citiesCovered.firstWhere((element) {
               return element.city.name == user.arrCity.name;
             }).arrival,
             dep: false),

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => ExchangeCityCubit()),
           BlocProvider(create: (context) => ChangeDateCubit()),
-          BlocProvider(create: (context) => TrainUpdatedCubit())
+          BlocProvider(create: (context) => TrainUpdatedCubit()),
+          BlocProvider(create: (context) => ClassUpdateCubit()),
         ],
         child: MaterialApp(
             title: 'Flutter Demo',

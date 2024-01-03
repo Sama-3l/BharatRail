@@ -15,3 +15,8 @@ Map<String, List<String>> keyForClass = {
   "2A": ["A", "4"],
   "1A": ["H", "3"]
 };
+
+const double fontSizeHeading = 32.0;
+const double fontSizeLarge = 24.0;
+const double fontSizeMedium = 16.0;
+const double fontSizeSmall = 8.0;

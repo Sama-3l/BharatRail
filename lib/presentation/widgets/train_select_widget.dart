@@ -10,7 +10,11 @@ import 'package:bharatrail/presentation/widgets/train_time_bar.dart';
 import 'package:flutter/material.dart';
 
 class CurrentTrainTile extends StatelessWidget {
-  CurrentTrainTile({super.key, required this.train, required this.theme, required this.user});
+  CurrentTrainTile(
+      {super.key,
+      required this.train,
+      required this.theme,
+      required this.user});
 
   DarkTheme theme;
   Train train;
@@ -29,7 +33,7 @@ class CurrentTrainTile extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TrainName(theme: theme, train: train),
             TrainTimeBar(theme: theme, train: train, user: user),
-            SelectClass(train: train, theme: theme)
+            SelectClass(train: train, theme: theme, user: user)
           ])),
     ));
   }

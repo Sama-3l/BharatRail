@@ -4,6 +4,7 @@ import 'package:bharatrail/assets/svgs/svg_code.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
+import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/functions/const_functions.dart';
@@ -98,6 +99,9 @@ class _SlAppBarState extends State<SlAppBar> {
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
                       onPressed: () {
+                        // FIND TRAINS CORRESPONDING TO 
+                        // THE FILTERS SET
+                        // HERE
                         BlocProvider.of<TrainUpdatedCubit>(context).onTrainUpdated();
                       },
                       style: ElevatedButton.styleFrom(
@@ -106,7 +110,7 @@ class _SlAppBarState extends State<SlAppBar> {
                               borderRadius: BorderRadius.circular(24))),
                       child: Text("LOAD TRAINS",
                           style: urbanist(widget.theme.labelWhite,
-                              fontsize: 16, weight: FontWeight.w600)),
+                              fontsize: fontSizeMedium, weight: FontWeight.w600)),
                     ),
                   )
                 ],
