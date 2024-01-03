@@ -167,11 +167,19 @@ class Functions {
 
   // Loads the seats correctly (ticket_grid.dart)
   Seats loadTicketLists(Seats seats, User user, DarkTheme theme) {
+    seats.init(seats);
     List<bool> seatAvail = user.tickets[0].coach!.seats;
     int p = 0;
     while (p < seatAvail.length) {
-      seats.seats[p % 4].add(TicketGridItem(
-          index: "$p", theme: theme, padding: setPadding(right: 8, bottom: 8)));
+      seats.seats[p % allClasses[user.tickets[0].seatClass]!].add(
+          TicketGridItem(
+              index: p,
+              theme: theme,
+              padding: ((p / allClasses[user.tickets[0].seatClass]!) % 2).floor() != 0
+                  ? setPadding(left: 8, right: 8, bottom: 48)
+                  : setPadding(left: 8, right: 8, bottom: 16),
+              booked: false,
+              selected: seatAvail[p]));
       p++;
     }
     return seats;

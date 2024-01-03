@@ -8,24 +8,28 @@ class TicketGridItem extends StatelessWidget {
       {super.key,
       required this.index,
       required this.theme,
-      required this.padding});
+      required this.padding,
+      required this.booked,
+      required this.selected});
 
-  final String index;
+  final int index;
   final DarkTheme theme;
   final EdgeInsets padding;
+  bool booked;
+  bool selected;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: Container(
-          height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.height * 0.07,
+          height: MediaQuery.of(context).size.height * 0.06,
+          width: MediaQuery.of(context).size.height * 0.06,
           decoration: BoxDecoration(
               border: Border.all(color: theme.surfaceGrey3, width: 2),
               borderRadius: BorderRadius.circular(8)),
           child: Center(
-            child: Text(index,
+            child: Text("${index+1}",
                 style: urbanist(theme.labelWhite, fontsize: fontSizeLarge)),
           )),
     );

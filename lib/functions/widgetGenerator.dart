@@ -1,6 +1,8 @@
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
+import 'package:bharatrail/data/models/coach.dart';
+import 'package:bharatrail/data/models/seats.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
@@ -68,6 +70,10 @@ class WidgetGenerator {
     }
   }
 
+  // Children widgets for buy tickets page since I needed to
+  // Add dynamic number of children to the listview
+  // I had to create a seperate function for the same.
+  // I haven't found a more efficient way to do this
   List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme) {
     List<Widget> children = [];
     children.add(BuyTicketsHeader(user: user, train: train, theme: theme));
@@ -129,5 +135,24 @@ class WidgetGenerator {
     }
 
     return children;
+  }
+
+  Widget loadSeatGrid(
+      DarkTheme theme, User user, Seats seats, Coach currCoach) {
+    List<Widget> children = [];
+    int numberOfRows = seats.seats.length -
+        seats.seats.where((element) {
+          return element.isEmpty;
+        }).length;
+    for (int i = 0; i < seats.seats.length; i++) {
+      if (seats.seats[i].isNotEmpty) {
+        children.add(i == 2
+            ? Padding(
+                padding: setPadding(left: 0, right: 24),
+                child: Column(children: seats.seats[i]))
+            : Column(children: seats.seats[i]));
+      }
+    }
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
   }
 }
