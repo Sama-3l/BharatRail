@@ -10,7 +10,7 @@ import 'package:bharatrail/presentation/widgets/buy_tickets_header.dart';
 import 'package:bharatrail/presentation/widgets/city_select_date_widget.dart';
 import 'package:bharatrail/presentation/widgets/select_coach_drop_down.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
-import 'package:bharatrail/presentation/widgets/train_coaches.dart';
+import 'package:bharatrail/presentation/widgets/ticket_grid.dart';
 import 'package:bharatrail/presentation/widgets/train_select_class.dart';
 import 'package:bharatrail/presentation/widgets/train_select_widget.dart';
 import 'package:bharatrail/presentation/widgets/train_time_bar.dart';
@@ -111,7 +111,23 @@ class WidgetGenerator {
         currClass: train.classes[
             allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
         ticket: user.tickets[0]));
-    children.add(TrainGrid(user: user, theme: theme));
+    for (int i = 0;
+        i <
+            train
+                .classes[
+                    allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
+                .coaches
+                .length;
+        i++) {
+      children.add(TicketGrid(
+          user: user,
+          theme: theme,
+          currCoach: train
+              .classes[
+                  allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
+              .coaches[i]));
+    }
+
     return children;
   }
 }

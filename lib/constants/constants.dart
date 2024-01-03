@@ -16,6 +16,14 @@ Map<String, List<String>> keyForClass = {
   "1A": ["H", "3"]
 };
 
+// Each letter correspond to their index in the seats list in Seats object
+Map<int, String> seatTypeIndex = {
+  0 : "U",
+  1 : "M",
+  2 : "L",
+  3 : "SL/SU" 
+};
+
 const double fontSizeHeading = 32.0;
 const double fontSizeLarge = 24.0;
 const double fontSizeMedium = 16.0;

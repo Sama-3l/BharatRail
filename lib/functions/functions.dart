@@ -8,12 +8,15 @@ import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
 import 'package:bharatrail/data/models/class.dart';
 import 'package:bharatrail/data/models/coach.dart';
+import 'package:bharatrail/data/models/seats.dart';
 import 'package:bharatrail/data/models/ticket.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
+import 'package:bharatrail/functions/const_functions.dart';
 import 'package:bharatrail/presentation/pages/buy_ticket.dart';
 import 'package:bharatrail/presentation/pages/city_select.dart';
+import 'package:bharatrail/presentation/widgets/ticket_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -142,7 +145,7 @@ class Functions {
             : defaultDynamic;
   }
 
-  // On selecting class of Ticket ()
+  // On selecting class of Ticket (train_class_tile.dart)
   void onSelectingClass(Class currClass, Train train, bool buyTicketPage,
       User user, BuildContext context, DarkTheme theme) {
     Ticket newTicket = Ticket(
@@ -160,5 +163,17 @@ class Functions {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => BuyTicket(user: user, theme: theme)));
     }
+  }
+
+  // Loads the seats correctly (ticket_grid.dart)
+  Seats loadTicketLists(Seats seats, User user, DarkTheme theme) {
+    List<bool> seatAvail = user.tickets[0].coach!.seats;
+    int p = 0;
+    while (p < seatAvail.length) {
+      seats.seats[p % 4].add(TicketGridItem(
+          index: "$p", theme: theme, padding: setPadding(right: 8, bottom: 8)));
+      p++;
+    }
+    return seats;
   }
 }
