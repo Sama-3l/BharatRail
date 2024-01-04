@@ -58,7 +58,11 @@ class TicketGridItem extends StatelessWidget {
                             : currCoach.seats[1][index]
                                 ? theme.surfaceGrey3
                                 : theme.labelWhite,
-                        width: 2),
+                        width:  currCoach.seats[0][index]
+                            ? 2
+                            : currCoach.seats[1][index]
+                                ? 4
+                                : 2),
                     borderRadius: BorderRadius.circular(8)),
                 child: Center(
                   child: Text("${index + 1}",
