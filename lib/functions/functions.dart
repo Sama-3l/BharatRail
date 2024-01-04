@@ -167,7 +167,6 @@ class Functions {
             .firstWhere((element) => currClass.name == element.name)
             .coaches[0]);
     user.tickets.add(newTicket);
-    print(user.tickets.length);
     BlocProvider.of<ClassUpdateCubit>(context).onClassChange();
     if (!buyTicketPage) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -314,10 +313,6 @@ class Functions {
   // Triggered when a seat is selected (ticket_grid_item.dart)
   void onSeatSelection(
       Coach currCoach, int index, User user, Class currClass, Train train) {
-    for (int i = 0; i < user.tickets.length; i++) {
-      print(user.tickets[i].seatClass);
-    }
-    print("");
     if (!currCoach.seats[0][index]) {
       currCoach.seats[1][index] = !currCoach.seats[1][index];
       if (currCoach.seats[1][index]) {
@@ -327,11 +322,6 @@ class Functions {
             seatNumber: index,
             coach: currCoach));
       } else {
-        print(user.tickets.indexWhere((element) {
-          return element.coach!.coachNumber == currCoach.coachNumber &&
-              element.seatNumber == index &&
-              element.seatClass == currClass.name;
-        }));
         user.tickets.removeAt(user.tickets.indexWhere((element) {
           return element.coach!.coachNumber == currCoach.coachNumber &&
               element.seatNumber == index &&
@@ -357,7 +347,7 @@ class Functions {
   // Called to scroll the listview (5 lines above us)
   void scroll(ScrollController controller, double height, int index) async {
     controller.animateTo(height * index,
-        duration: Duration(milliseconds: scrollDuration),
+        duration: const Duration(milliseconds: scrollDuration),
         curve: Curves.easeInOutCubic);
   }
 }
