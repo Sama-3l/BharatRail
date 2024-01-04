@@ -56,11 +56,13 @@ Bharatrail follows a robust and scalable architecture to provide a seamless user
 
 This is not a real splash screen but I added one to smooth out the flow of the app. It shows the logo which I made (it's basically just urbanist font), and then it leads you into the home page.
 
+![Splash-Screen](https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/splashScreen.jpg?raw=true)
+
 ### 4.2 Home Page
 
 The task didn't specify a home page but there always is just too much information that needs to be provided beforehand, that a ticketing system rarely ever comes without one. It made design sense to have a onboarding and provide a varied number of options there.
 
-[![Splash-Screen](https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/splash_screen.jpg?raw=true)]
+![Splash-Screen](https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/home_screen.jpg?raw=true)
 
 ## 5. App Features
 
