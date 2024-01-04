@@ -73,7 +73,7 @@ class WidgetGenerator {
   // Children widgets for buy tickets page since I needed to
   // Add dynamic number of children to the listview
   // I had to create a seperate function for the same.
-  // I haven't found a more efficient way to do this
+  // I haven't found a more efficient way to do this ()
   List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme) {
     List<Widget> children = [];
     children.add(BuyTicketsHeader(user: user, train: train, theme: theme));
@@ -137,13 +137,10 @@ class WidgetGenerator {
     return children;
   }
 
+  // The grid is basically 4 rows with Column widgets. ()
   Widget loadSeatGrid(
       DarkTheme theme, User user, Seats seats, Coach currCoach) {
     List<Widget> children = [];
-    int numberOfRows = seats.seats.length -
-        seats.seats.where((element) {
-          return element.isEmpty;
-        }).length;
     for (int i = 0; i < seats.seats.length; i++) {
       if (seats.seats[i].isNotEmpty) {
         children.add(i == 2

@@ -18,14 +18,16 @@ Map<String, List<String>> keyForClass = {
 
 // Each letter correspond to their index in the seats list in Seats object
 Map<int, String> seatTypeIndex = {
-  0 : "U",
+  0 : "L",
   1 : "M",
-  2 : "L",
+  2 : "U",
   3 : "SL/SU" 
 };
 
 const int numberOfCompartmentsInBogey = 9;
+int totalNumberOfRows = 2 * numberOfCompartmentsInBogey;  //2 rows in each bogey
 
+const double fontSizeHeadingMedium = 40.0;
 const double fontSizeHeading = 32.0;
 const double fontSizeLarge = 24.0;
 const double fontSizeMedium = 16.0;

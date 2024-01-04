@@ -4,6 +4,7 @@ import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cub
 import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/cubit/ticket_selected_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => ChangeDateCubit()),
           BlocProvider(create: (context) => TrainUpdatedCubit()),
           BlocProvider(create: (context) => ClassUpdateCubit()),
+          BlocProvider(create: (context) => TicketSelectedCubit())
         ],
         child: MaterialApp(
             title: 'Flutter Demo',

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
@@ -17,6 +19,7 @@ import 'package:bharatrail/functions/const_functions.dart';
 import 'package:bharatrail/presentation/pages/buy_ticket.dart';
 import 'package:bharatrail/presentation/pages/city_select.dart';
 import 'package:bharatrail/presentation/widgets/ticket_block.dart';
+import 'package:bharatrail/presentation/widgets/ticket_class_head.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,6 +70,7 @@ class Functions {
             0 // WL - (This increases when AVAIL AND RAC ARE FINISHED)
           ],
           coaches: initiateCoaches(thisClass.key, thisClass.value)));
+      randomSeatAllocation(classes.last);
     }
     return classes;
   }
@@ -98,8 +102,9 @@ class Functions {
               dialogBackgroundColor: theme.surfaceElevated,
               colorScheme: ColorScheme.light(
                 primary: theme.surfaceGrey3, // header background color
-                onPrimary: theme.labelWhite, // header text color
                 onSurface: theme.labelWhite, // body text color
+                secondary: theme.labelWhite,
+                onSecondary: theme.labelWhite, // header text color
               ),
               textTheme: TextTheme(
                 headlineMedium:
@@ -124,7 +129,6 @@ class Functions {
   // OnChanged of DropDownMenus (city_select_widget.dart)
   void onCitySelection(
       BuildContext context, User user, String? newValue, bool depCity) {
-
     // Checks if the code is supposed to change the departing or arrival city
     // Then checks if the user is trying to set both the cities as same and avoids that
     if (depCity) {
@@ -171,26 +175,127 @@ class Functions {
   }
 
   // Loads the seats correctly (ticket_grid.dart)
-  Seats loadTicketLists(Seats seats, User user, DarkTheme theme) {
+  Seats loadTicketLists(
+      Seats seats, User user, DarkTheme theme, Coach currCoach) {
     seats.init(seats);
     List<bool> seatAvail = user.tickets[0].coach!.seats;
+    int numberOfSeatsInOneRow = allClasses[user.tickets[0].seatClass]!;
     int p = 0;
+
     while (p < seatAvail.length) {
-      seats.seats[p % allClasses[user.tickets[0].seatClass]!].add(
-          TicketGridItem(
-              index: p,
-              theme: theme,
-              padding: ((p / allClasses[user.tickets[0].seatClass]!) % 2)
-                              .floor() !=
-                          0 &&
-                      (p / allClasses[user.tickets[0].seatClass]!).floor() !=
-                          (2 * numberOfCompartmentsInBogey - 1)
-                  ? setPadding(left: 8, right: 8, bottom: 48)
-                  : setPadding(left: 8, right: 8, bottom: 16),
-              booked: false,
-              selected: seatAvail[p]));
+      int rowIndex = (p / numberOfSeatsInOneRow).floor();
+      int seatIndex = p % numberOfSeatsInOneRow;
+      if (numberOfSeatsInOneRow == 4) {
+        if (rowIndex == 0) {
+          seats.seats[seatIndex].add(TicketClassHeading(
+              seatNumber: seatTypeIndex[seatIndex]!, theme: theme));
+        }
+        seats.seats[seatIndex].add(TicketGridItem(
+            index: p,
+            theme: theme,
+            padding: ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
+                    rowIndex != (2 * numberOfCompartmentsInBogey - 1)
+                ? setPadding(left: 8, right: 8, bottom: 48)
+                : setPadding(left: 8, right: 8, bottom: 16),
+            currCoach: currCoach));
+      } else if (numberOfSeatsInOneRow < 4) {
+        // Skips the middle berth for upper class tickets
+        if (rowIndex == 0) {
+          seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1].add(
+              TicketClassHeading(
+                  seatNumber: seatTypeIndex[
+                      seatIndex < 1 ? seatIndex : (seatIndex) + 1]!,
+                  theme: theme));
+        }
+        seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1].add(
+            TicketGridItem(
+                index: p,
+                theme: theme,
+                padding: checkCondition(
+                    ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
+                        rowIndex != totalNumberOfRows - 1,
+                    setPadding(left: 8, right: 8, bottom: 48),
+                    setPadding(left: 8, right: 8, bottom: 16)),
+                currCoach: currCoach));
+      }
       p++;
     }
     return seats;
+  }
+
+  dynamic checkCondition(bool cond, dynamic defaultItem, dynamic toggleItem) {
+    return cond ? defaultItem : toggleItem;
+  }
+
+  // Randomly Allocates whether a class should be
+  // Avail, RAC or Waiting List                   (initiateClasses())
+  void randomSeatAllocation(Class currClass) {
+    double random = Random().nextDouble();
+    if (random < 0.3) {
+      setRAC(currClass);
+    } else if (random < 0.6) {
+      setWL(currClass);
+    } else {
+      setAvail(currClass);
+    }
+  }
+
+  // Sets the class to be RAC (randomSeatAllocation())
+  void setRAC(Class currClass) {
+    int notAvail = 0;
+    for (var coach in currClass.coaches) {
+      notAvail += (coach.seats.length * 0.95).floor();
+      coach.seats =
+          selectAndSetTrue(coach.seats, (coach.seats.length * 0.95).floor());
+    }
+    currClass.metrics[1] =
+        notAvail - currClass.metrics[0]; // Sets the number of RAC tickets
+    currClass.metrics[0] = 0; // Sets Avail to 0
+  }
+
+  // Sets the class to be Waiting List (randomSeatAllocation())
+  void setWL(Class currClass) {
+    for (var coach in currClass.coaches) {
+      coach.seats = coach.seats.map((x) => !x).toList();
+    }
+    currClass.metrics[0] = 0; // Sets Avail to 0
+    currClass.metrics[1] = 0;
+    currClass.metrics[2] = Random().nextInt(150);
+  }
+
+  // Sets the class to have available tickets (randomSeatAllocation())
+  void setAvail(Class currClass) {
+    int notAvail = 0;
+    for (var coach in currClass.coaches) {
+      int seatsBookedInCurrentCoach =
+          Random().nextInt((coach.seats.length * 0.9).floor());
+      notAvail += seatsBookedInCurrentCoach;
+      coach.seats = selectAndSetTrue(coach.seats, seatsBookedInCurrentCoach);
+    }
+    currClass.metrics[0] = notAvail;
+  }
+
+  // Randomly selects n seats and set them to be booked
+  List<bool> selectAndSetTrue(List<bool> boolList, int n) {
+    if (n > boolList.length) {
+      throw ArgumentError(
+          "Invalid input: n must be less than or equal to the length of the bool list");
+    }
+
+    List<bool> result =
+        List.from(boolList); // Create a copy of the original list
+
+    Random random = Random();
+    for (int i = 0; i < n; i++) {
+      int randomIndex;
+      do {
+        randomIndex = random.nextInt(result.length);
+      } while (result[
+          randomIndex]); // Continue generating until a false value is found
+
+      result[randomIndex] = true; // Set the selected index to true
+    }
+
+    return result;
   }
 }

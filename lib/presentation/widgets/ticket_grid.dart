@@ -56,7 +56,7 @@ class _TicketGridState extends State<TicketGrid> {
                   child: wg.loadSeatGrid(
                       widget.theme,
                       widget.user,
-                      func.loadTicketLists(allSeats, widget.user, widget.theme),
+                      func.loadTicketLists(allSeats, widget.user, widget.theme, widget.currCoach),
                       widget.currCoach),
                 )
               ],
