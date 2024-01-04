@@ -25,7 +25,7 @@ class BuyTicketsHeader extends StatelessWidget {
         child: Row(children: [
           GestureDetector(
               onTap: () {
-                user.tickets.removeLast();
+                user.tickets.clear();
                 Navigator.of(context).pop();
               },
               child: const Iconify(backwardButton, size: 32)),

@@ -16,7 +16,7 @@ class TicketClassHeading extends StatelessWidget {
       padding: setPadding(bottom: 16, left: 0, right: 0),
       child: Text(seatNumber,
           style: urbanist(theme.labelWhite,
-              fontsize: fontSizeHeadingMedium, weight: FontWeight.w100)),
+              fontsize: fontSizeLarge, weight: FontWeight.w100)),
     );
   }
 }

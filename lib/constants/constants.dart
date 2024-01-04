@@ -27,7 +27,6 @@ Map<int, String> seatTypeIndex = {
 const int numberOfCompartmentsInBogey = 9;
 int totalNumberOfRows = 2 * numberOfCompartmentsInBogey;  //2 rows in each bogey
 
-const double fontSizeHeadingMedium = 40.0;
 const double fontSizeHeading = 32.0;
 const double fontSizeLarge = 24.0;
 const double fontSizeMedium = 16.0;

@@ -26,7 +26,7 @@ class _BuyTicketState extends State<BuyTicket> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.user.tickets.removeLast();
+        widget.user.tickets.clear();
         return true;
       },
       child: SafeArea(

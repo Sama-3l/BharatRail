@@ -131,7 +131,11 @@ class WidgetGenerator {
           currCoach: train
               .classes[
                   allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
-              .coaches[i]));
+              .coaches[i],
+          currClass: train
+              .classes[
+                  allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
+          train: train));
     }
 
     return children;
