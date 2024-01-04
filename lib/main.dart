@@ -3,8 +3,8 @@
 import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/TicketSelectedCubit/ticket_selected_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
-import 'package:bharatrail/business_logic/cubits/cubit/ticket_selected_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';

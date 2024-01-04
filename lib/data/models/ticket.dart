@@ -4,8 +4,9 @@ import 'package:bharatrail/data/models/train.dart';
 class Ticket {
   int? seatNumber;
   String seatClass;
-  Coach? coach;
+  Coach coach;
   Train train;
+  String? seatTypeIndex;
 
-  Ticket({this.seatNumber, required this.seatClass, this.coach, required this.train});
+  Ticket({this.seatNumber, this.seatTypeIndex, required this.seatClass, required this.coach, required this.train});
 }

@@ -1,8 +1,10 @@
+import 'package:bharatrail/business_logic/cubits/TicketSelectedCubit/ticket_selected_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
 import 'package:bharatrail/data/models/coach.dart';
 import 'package:bharatrail/data/models/seats.dart';
+import 'package:bharatrail/data/models/ticket.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
@@ -10,6 +12,7 @@ import 'package:bharatrail/data/repostitories/trains.dart';
 import 'package:bharatrail/functions/const_functions.dart';
 import 'package:bharatrail/presentation/widgets/buy_tickets_header.dart';
 import 'package:bharatrail/presentation/widgets/city_select_date_widget.dart';
+import 'package:bharatrail/presentation/widgets/payment_card.dart';
 import 'package:bharatrail/presentation/widgets/select_coach_drop_down.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
 import 'package:bharatrail/presentation/widgets/ticket_grid.dart';
@@ -17,6 +20,7 @@ import 'package:bharatrail/presentation/widgets/train_select_class.dart';
 import 'package:bharatrail/presentation/widgets/train_select_widget.dart';
 import 'package:bharatrail/presentation/widgets/train_time_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WidgetGenerator {
   // Generate the list of trains depending on the current arrival city and dep city stored in User (city_select.dart)
@@ -150,5 +154,68 @@ class WidgetGenerator {
       }
     }
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
+  }
+
+  // Function to show the overlay container
+  OverlayEntry showOverlay(
+      BuildContext context, User user, DarkTheme theme, Train train) {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) =>
+          BlocBuilder<TicketSelectedCubit, TicketSelectedState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                Container(
+                  height: double.infinity,
+                  color: theme.surfaceBlack.withOpacity(0.8),
+                ),
+                PaymentCard(theme: theme, user: user, train: train)
+              ],
+            ),
+          );
+        },
+      ),
+    );
+    overlayState.insert(overlayEntry);
+    return overlayEntry;
+  }
+
+  // Used to make the card which shows all the tickets in Payment overlay (payment_tickets_list_item.dart)
+  List<Widget> renderPaymentTicketsCard(
+      Ticket ticket, DarkTheme theme, Train train) {
+    List<Widget> children = [
+      Padding(
+        padding: setPadding(top: 8, bottom: 16),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(
+            ticket.seatClass,
+            style: urbanist(theme.labelWhite,
+                fontsize: fontSizeMedium, weight: FontWeight.w700),
+          ),
+          Text(
+            ticket.coach.coachNumber,
+            style: urbanist(theme.labelWhite,
+                fontsize: fontSizeMedium, weight: FontWeight.w700),
+          )
+        ]),
+      )
+    ];
+    Map<String, List<int>> tickets = {
+      "Lower": [],
+      "Middle": [],
+      "Upper": [],
+      "Side": []
+    };
+    // for (int i = 0; i < ticket.coach.seats[0].length; i++) {
+    //   if (!ticket.coach.seats[0][i] && ticket.coach.seats[1][i]) {
+    //     tickets[seatType[ticket.seatTypeIndex]]!.add(i);
+    //   }
+    // }
+    print(tickets);
+    return children;
   }
 }

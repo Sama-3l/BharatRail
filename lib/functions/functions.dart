@@ -39,7 +39,7 @@ class Functions {
   // Initalizes user generally supposed to work on backend call
   User initializeUser() {
     return User(
-        name: "Samael",
+        name: "Siddhartha Mishra",
         arrCity: City(name: "Chennai"),
         depCity: City(name: "New Delhi"),
         depTime: DateTime.now());
@@ -160,13 +160,30 @@ class Functions {
   // On selecting class of Ticket (train_class_tile.dart)
   void onSelectingClass(Class currClass, Train train, bool buyTicketPage,
       User user, BuildContext context, DarkTheme theme) {
-    Ticket newTicket = Ticket(
-        seatClass: currClass.name,
-        train: train,
-        coach: train.classes
-            .firstWhere((element) => currClass.name == element.name)
-            .coaches[0]);
-    user.tickets.add(newTicket);
+    // If user doesn't have a ticket
+    // It sets the ticket to one for the specific class
+    // Else if same class is being selected again
+    // It deletes the earlier ticket for the class
+    // And moves it to the lastest position in the list
+    if (user.tickets
+            .where((e) => e.seatClass == currClass.name)
+            .toList()
+            .length !=
+        1) {
+      Ticket newTicket = Ticket(
+          seatClass: currClass.name,
+          train: train,
+          coach: train.classes
+              .firstWhere((element) => currClass.name == element.name)
+              .coaches[0]);
+      user.tickets.add(newTicket);
+    } else {
+      Ticket oldTicket =
+          user.tickets.firstWhere((e) => e.seatClass == currClass.name);
+      user.tickets
+          .removeWhere((element) => element.seatClass == currClass.name);
+      user.tickets.add(oldTicket);
+    }
     BlocProvider.of<ClassUpdateCubit>(context).onClassChange();
     if (!buyTicketPage) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -178,7 +195,7 @@ class Functions {
   Seats loadTicketLists(Seats seats, User user, DarkTheme theme,
       Coach currCoach, Class currClass, Train train) {
     seats.init(seats);
-    List<List<bool>> seatAvail = user.tickets.last.coach!.seats;
+    List<List<bool>> seatAvail = user.tickets.last.coach.seats;
     int numberOfSeatsInOneRow = allClasses[user.tickets.last.seatClass]!;
     int p = 0;
 
@@ -188,7 +205,7 @@ class Functions {
       if (numberOfSeatsInOneRow == 4) {
         if (rowIndex == 0) {
           seats.seats[seatIndex].add(TicketClassHeading(
-              seatNumber: seatTypeIndex[seatIndex]!, theme: theme));
+              seatNumber: seatTypeLetter[seatIndex]!, theme: theme));
         }
         seats.seats[seatIndex].add(TicketGridItem(
             index: p,
@@ -201,29 +218,33 @@ class Functions {
             currCoach: currCoach,
             user: user,
             currClass: currClass,
-            train: train));
+            train: train,
+            seatTypeIndex: seatTypeLetter[seatIndex]!));
       } else if (numberOfSeatsInOneRow < 4) {
         // Skips the middle berth for upper class tickets
         if (rowIndex == 0) {
           seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1].add(
               TicketClassHeading(
-                  seatNumber: seatTypeIndex[
+                  seatNumber: seatTypeLetter[
                       seatIndex < 1 ? seatIndex : (seatIndex) + 1]!,
                   theme: theme));
         }
-        seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1].add(
-            TicketGridItem(
-                index: p,
-                theme: theme,
-                padding: checkCondition(
-                    ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
-                        rowIndex != totalNumberOfRows - 1,
-                    setPadding(left: 8, right: 8, bottom: 48),
-                    setPadding(left: 8, right: 8, bottom: 16)),
-                currCoach: currCoach,
-                user: user,
-                currClass: currClass,
-                train: train));
+        seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1]
+            .add(
+                TicketGridItem(
+                    index: p,
+                    theme: theme,
+                    padding: checkCondition(
+                        ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
+                            rowIndex != totalNumberOfRows - 1,
+                        setPadding(left: 8, right: 8, bottom: 48),
+                        setPadding(left: 8, right: 8, bottom: 16)),
+                    currCoach: currCoach,
+                    user: user,
+                    currClass: currClass,
+                    train: train,
+                    seatTypeIndex: seatTypeLetter[
+                        seatIndex < 1 ? seatIndex : (seatIndex) + 1]!));
       }
       p++;
     }
@@ -311,23 +332,10 @@ class Functions {
   }
 
   // Triggered when a seat is selected (ticket_grid_item.dart)
-  void onSeatSelection(
-      Coach currCoach, int index, User user, Class currClass, Train train) {
+  void onSeatSelection(Coach currCoach, int index, User user, Class currClass,
+      Train train, String seatTypeIndex) {
     if (!currCoach.seats[0][index]) {
       currCoach.seats[1][index] = !currCoach.seats[1][index];
-      if (currCoach.seats[1][index]) {
-        user.tickets.add(Ticket(
-            seatClass: currClass.name,
-            train: train,
-            seatNumber: index,
-            coach: currCoach));
-      } else {
-        user.tickets.removeAt(user.tickets.indexWhere((element) {
-          return element.coach!.coachNumber == currCoach.coachNumber &&
-              element.seatNumber == index &&
-              element.seatClass == currClass.name;
-        }));
-      }
     }
   }
 
@@ -349,5 +357,10 @@ class Functions {
     controller.animateTo(height * index,
         duration: const Duration(milliseconds: scrollDuration),
         curve: Curves.easeInOutCubic);
+  }
+
+  // Function to remove the overlay container
+  void removeOverlay(OverlayEntry overlayEntry) {
+    overlayEntry.remove();
   }
 }

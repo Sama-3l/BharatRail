@@ -48,7 +48,7 @@ class _SelectCoachDropDownMenuState extends State<SelectCoachDropDownMenu> {
               underline: Container(),
               style: urbanist(widget.theme.labelWhite),
               dropdownColor: widget.theme.surfaceGrey2,
-              value: widget.ticket.coach!.coachNumber,
+              value: widget.ticket.coach.coachNumber,
               onChanged: (newValue) {
                 func.onCoachChange(
                     widget.ticket,

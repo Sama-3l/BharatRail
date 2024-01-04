@@ -5,7 +5,7 @@ import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/functions/const_functions.dart';
 import 'package:bharatrail/functions/functions.dart';
-import 'package:bharatrail/functions/widgetGenerator.dart';
+import 'package:bharatrail/functions/widget_generator.dart';
 import 'package:flutter/material.dart';
 
 class CitySelectBar extends StatefulWidget {

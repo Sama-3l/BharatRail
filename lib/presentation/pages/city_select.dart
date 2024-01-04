@@ -7,7 +7,7 @@ import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/data/repostitories/trains.dart';
 import 'package:bharatrail/functions/const_functions.dart';
-import 'package:bharatrail/functions/widgetGenerator.dart';
+import 'package:bharatrail/functions/widget_generator.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

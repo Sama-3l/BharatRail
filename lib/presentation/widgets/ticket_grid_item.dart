@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bharatrail/business_logic/cubits/cubit/ticket_selected_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/TicketSelectedCubit/ticket_selected_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/class.dart';
@@ -21,6 +21,7 @@ class TicketGridItem extends StatelessWidget {
       required this.currCoach,
       required this.user,
       required this.train,
+      required this.seatTypeIndex,
       required this.currClass});
 
   final int index;
@@ -30,6 +31,7 @@ class TicketGridItem extends StatelessWidget {
   Class currClass;
   Train train;
   User user;
+  String seatTypeIndex;
   Functions func = Functions();
 
   @override
@@ -40,7 +42,7 @@ class TicketGridItem extends StatelessWidget {
           padding: padding,
           child: GestureDetector(
             onTap: () {
-              func.onSeatSelection(currCoach, index, user, currClass, train);
+              func.onSeatSelection(currCoach, index, user, currClass, train, seatTypeIndex);
               BlocProvider.of<TicketSelectedCubit>(context).onSelectingTicket();
             },
             child: Container(
@@ -58,7 +60,7 @@ class TicketGridItem extends StatelessWidget {
                             : currCoach.seats[1][index]
                                 ? theme.surfaceGrey3
                                 : theme.labelWhite,
-                        width:  currCoach.seats[0][index]
+                        width: currCoach.seats[0][index]
                             ? 2
                             : currCoach.seats[1][index]
                                 ? 4
