@@ -50,9 +50,21 @@ If you are looking for the apk, you can get the Bharatrail_v1.0.0.apk in the fol
 
 Bharatrail follows a robust and scalable architecture to provide a seamless user experience. Describe the overall architecture, design principles, and any noteworthy patterns.
 
-## 4. App Features
+## 4. Additional Screens
 
-### 4.1 Auto-Scrolling of Coaches
+### 4.1 Splash Screen
+
+This is not a real splash screen but I added one to smooth out the flow of the app. It shows the logo which I made (it's basically just urbanist font), and then it leads you into the home page.
+
+### 4.2 Home Page
+
+The task didn't specify a home page but there always is just too much information that needs to be provided beforehand, that a ticketing system rarely ever comes without one. 
+
+It made design sense to have a onboarding and provide a varied number of options there.
+
+## 5. App Features
+
+### 5.1 Auto-Scrolling of Coaches
 
 This is a code snipet from [functions.dart](https://github.com/Sama-3l/BharatRail/blob/master/lib/functions/functions.dart) which controls the auto-scrolling which is triggered when you select a coach. It scrolls by a height which is 2.1 times the height of user's screen (done using [MediaQuery](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)).
 
@@ -82,7 +94,7 @@ I will implement scroll back to top button too.
     }
 ```
 
-### 4.2 Different Types of Seats
+### 5.2 Different Types of Seats
 
 There are total three types of seats and I went through some literature to finally learn, for myself too actually, what RAC, WL, etc. actually mean and I did my best to implement the same into the app.
 
