@@ -2,6 +2,7 @@
 
 import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
+import 'package:bharatrail/data/models/seats.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/functions/widgetGenerator.dart';
@@ -19,9 +20,17 @@ class BuyTicket extends StatefulWidget {
 }
 
 class _BuyTicketState extends State<BuyTicket> {
-  late Train train = widget.user.tickets[0].train;
+  late Train train = widget.user.tickets.last.train;
   WidgetGenerator wg = WidgetGenerator();
   ScrollController controller = ScrollController();
+  Seats seats = Seats();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    seats.init(seats);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class _BuyTicketState extends State<BuyTicket> {
               return ListView(
                   controller: controller,
                   children: wg.loadBuyTicketsListView(
-                      widget.user, train, widget.theme, controller));
+                      widget.user, train, widget.theme, controller, seats));
             },
           ),
         ),

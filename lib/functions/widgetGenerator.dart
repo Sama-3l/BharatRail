@@ -75,9 +75,12 @@ class WidgetGenerator {
   // I had to create a seperate function for the same.
   // I haven't found a more efficient way to do this ()
   List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme,
-      ScrollController listViewScroller) {
+      ScrollController listViewScroller, Seats seats) {
     List<Widget> children = [];
-    children.add(BuyTicketsHeader(user: user, train: train, theme: theme));
+    String currClass = user.tickets.last.seatClass;
+
+    children.add(
+        BuyTicketsHeader(user: user, train: train, theme: theme, seats: seats));
     children.add(Padding(
       padding: setPadding(top: 8),
       child: TrainTimeBar(theme: theme, train: train, user: user),
@@ -97,17 +100,14 @@ class WidgetGenerator {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           children: [
             Text(
-              user.tickets[0].seatClass,
+              currClass,
               style: urbanist(theme.labelWhite,
                   fontsize: fontSizeLarge, weight: FontWeight.w500),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: renderClassMetrics(
-                  train
-                      .classes[allClasses.keys
-                          .toList()
-                          .indexOf(user.tickets[0].seatClass)]
+                  train.classes[allClasses.keys.toList().indexOf(currClass)]
                       .metrics,
                   theme),
             ),
@@ -116,27 +116,21 @@ class WidgetGenerator {
     children.add(SelectCoachDropDownMenu(
         theme: theme,
         controller: listViewScroller,
-        currClass: train.classes[
-            allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
-        ticket: user.tickets[0]));
+        currClass: train.classes[allClasses.keys.toList().indexOf(currClass)],
+        ticket: user.tickets.last));
     for (int i = 0;
         i <
-            train
-                .classes[
-                    allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
-                .coaches
+            train.classes[allClasses.keys.toList().indexOf(currClass)].coaches
                 .length;
         i++) {
       children.add(TicketGrid(
           user: user,
           theme: theme,
           currCoach: train
-              .classes[
-                  allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
-              .coaches[i],
-          currClass: train.classes[
-              allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
-          train: train));
+              .classes[allClasses.keys.toList().indexOf(currClass)].coaches[i],
+          currClass: train.classes[allClasses.keys.toList().indexOf(currClass)],
+          train: train,
+          allSeats: seats));
     }
 
     return children;

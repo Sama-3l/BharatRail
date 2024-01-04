@@ -152,7 +152,7 @@ class Functions {
       dynamic toggleDynamic) {
     return user.tickets.isEmpty
         ? defaultDynamic
-        : currClass.name == user.tickets[0].seatClass
+        : currClass.name == user.tickets.last.seatClass
             ? toggleDynamic
             : defaultDynamic;
   }
@@ -166,10 +166,8 @@ class Functions {
         coach: train.classes
             .firstWhere((element) => currClass.name == element.name)
             .coaches[0]);
-    if (buyTicketPage) {
-      user.tickets.removeLast();
-    }
     user.tickets.add(newTicket);
+    print(user.tickets.length);
     BlocProvider.of<ClassUpdateCubit>(context).onClassChange();
     if (!buyTicketPage) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -181,8 +179,8 @@ class Functions {
   Seats loadTicketLists(Seats seats, User user, DarkTheme theme,
       Coach currCoach, Class currClass, Train train) {
     seats.init(seats);
-    List<List<bool>> seatAvail = user.tickets[0].coach!.seats;
-    int numberOfSeatsInOneRow = allClasses[user.tickets[0].seatClass]!;
+    List<List<bool>> seatAvail = user.tickets.last.coach!.seats;
+    int numberOfSeatsInOneRow = allClasses[user.tickets.last.seatClass]!;
     int p = 0;
 
     while (p < seatAvail[0].length) {
@@ -316,6 +314,10 @@ class Functions {
   // Triggered when a seat is selected (ticket_grid_item.dart)
   void onSeatSelection(
       Coach currCoach, int index, User user, Class currClass, Train train) {
+    for (int i = 0; i < user.tickets.length; i++) {
+      print(user.tickets[i].seatClass);
+    }
+    print("");
     if (!currCoach.seats[0][index]) {
       currCoach.seats[1][index] = !currCoach.seats[1][index];
       if (currCoach.seats[1][index]) {
@@ -325,9 +327,15 @@ class Functions {
             seatNumber: index,
             coach: currCoach));
       } else {
+        print(user.tickets.indexWhere((element) {
+          return element.coach!.coachNumber == currCoach.coachNumber &&
+              element.seatNumber == index &&
+              element.seatClass == currClass.name;
+        }));
         user.tickets.removeAt(user.tickets.indexWhere((element) {
           return element.coach!.coachNumber == currCoach.coachNumber &&
-              element.seatNumber == index;
+              element.seatNumber == index &&
+              element.seatClass == currClass.name;
         }));
       }
     }

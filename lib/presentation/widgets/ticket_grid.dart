@@ -19,20 +19,21 @@ class TicketGrid extends StatefulWidget {
       required this.theme,
       required this.currCoach,
       required this.train,
-      required this.currClass});
+      required this.currClass,
+      required this.allSeats});
 
   DarkTheme theme;
   User user;
   Coach currCoach;
   Train train;
   Class currClass;
+  Seats allSeats;
 
   @override
   State<TicketGrid> createState() => _TicketGridState();
 }
 
 class _TicketGridState extends State<TicketGrid> {
-  Seats allSeats = Seats();
   Functions func = Functions();
   WidgetGenerator wg = WidgetGenerator();
 
@@ -61,7 +62,7 @@ class _TicketGridState extends State<TicketGrid> {
                   child: wg.loadSeatGrid(
                       widget.theme,
                       widget.user,
-                      func.loadTicketLists(allSeats, widget.user, widget.theme,
+                      func.loadTicketLists(widget.allSeats, widget.user, widget.theme,
                           widget.currCoach, widget.currClass, widget.train),
                       widget.currCoach),
                 )
