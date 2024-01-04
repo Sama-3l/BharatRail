@@ -40,17 +40,17 @@ class WidgetGenerator {
   // Check and render element such that user knows they already selected this city (city_select_widget.dart)
   Widget getDropDownItemText(
       City city, bool depCity, DarkTheme theme, User user) {
-      if (depCity) {
-        return Text(city.name,
-            style: urbanist(user.arrCity.name != city.name
-                ? theme.labelWhite
-                : theme.labelWhite.withOpacity(0.5)));
-      } else {
-        return Text(city.name,
-            style: urbanist(user.depCity.name != city.name
-                ? theme.labelWhite
-                : theme.labelWhite.withOpacity(0.5)));
-      }
+    if (depCity) {
+      return Text(city.name,
+          style: urbanist(user.arrCity.name != city.name
+              ? theme.labelWhite
+              : theme.labelWhite.withOpacity(0.5)));
+    } else {
+      return Text(city.name,
+          style: urbanist(user.depCity.name != city.name
+              ? theme.labelWhite
+              : theme.labelWhite.withOpacity(0.5)));
+    }
   }
 
   // Sets the font along with color depending on the type of tickets available ()
@@ -74,7 +74,8 @@ class WidgetGenerator {
   // Add dynamic number of children to the listview
   // I had to create a seperate function for the same.
   // I haven't found a more efficient way to do this ()
-  List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme) {
+  List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme,
+      ScrollController listViewScroller) {
     List<Widget> children = [];
     children.add(BuyTicketsHeader(user: user, train: train, theme: theme));
     children.add(Padding(
@@ -114,6 +115,7 @@ class WidgetGenerator {
         )));
     children.add(SelectCoachDropDownMenu(
         theme: theme,
+        controller: listViewScroller,
         currClass: train.classes[
             allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
         ticket: user.tickets[0]));
@@ -132,9 +134,8 @@ class WidgetGenerator {
               .classes[
                   allClasses.keys.toList().indexOf(user.tickets[0].seatClass)]
               .coaches[i],
-          currClass: train
-              .classes[
-                  allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
+          currClass: train.classes[
+              allClasses.keys.toList().indexOf(user.tickets[0].seatClass)],
           train: train));
     }
 

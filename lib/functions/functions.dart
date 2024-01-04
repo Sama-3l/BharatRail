@@ -197,10 +197,10 @@ class Functions {
             index: p,
             theme: theme,
             padding: checkCondition(
-                    ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
-                        rowIndex != totalNumberOfRows - 1,
-                    setPadding(left: 8, right: 8, bottom: 48),
-                    setPadding(left: 8, right: 8, bottom: 16)),
+                ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
+                    rowIndex != totalNumberOfRows - 1,
+                setPadding(left: 8, right: 8, bottom: 48),
+                setPadding(left: 8, right: 8, bottom: 16)),
             currCoach: currCoach,
             user: user,
             currClass: currClass,
@@ -258,8 +258,10 @@ class Functions {
       coach.seats[0] = selectAndSetTrue(
           coach.seats[0], (coach.seats[0].length * 0.95).floor());
     }
-    currClass.metrics[1] =
-        notAvail - currClass.metrics[0]; // Sets the number of RAC tickets
+    currClass.metrics[1] = currClass.metrics[1] -
+        notAvail +
+        currClass.metrics[0] +
+        1; // Sets the number of RAC tickets
     currClass.metrics[0] = 0; // Sets Avail to 0
   }
 
@@ -283,7 +285,8 @@ class Functions {
       coach.seats[0] =
           selectAndSetTrue(coach.seats[0], seatsBookedInCurrentCoach);
     }
-    currClass.metrics[0] = notAvail;
+    currClass.metrics[0] = currClass.metrics[0] -
+        notAvail; // (Number of seats Avail Originally - Avail no.) DOESN'T INCLUDE SEATS RESERVERD FOR RAC
   }
 
   // Randomly selects n seats and set them to be booked
@@ -328,5 +331,25 @@ class Functions {
         }));
       }
     }
+  }
+
+  // Function called when a new coach is selected from
+  // The dropdownmenu in Buy Ticket screen              (select_coach_drop_down.dart)
+  void onCoachChange(Ticket ticket, Class currClass, String? newValue,
+      ScrollController controller, double height) {
+    int indexOfCoach = currClass.coaches.indexWhere((element) {
+      return element.coachNumber == newValue!;
+    });
+    if (indexOfCoach != -1) {
+      scroll(controller, height, indexOfCoach);
+    }
+    ticket.coach = currClass.coaches[indexOfCoach];
+  }
+
+  // Called to scroll the listview (5 lines above us)
+  void scroll(ScrollController controller, double height, int index) async {
+    controller.animateTo(height * index,
+        duration: Duration(milliseconds: scrollDuration),
+        curve: Curves.easeInOutCubic);
   }
 }

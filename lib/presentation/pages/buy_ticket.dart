@@ -21,6 +21,7 @@ class BuyTicket extends StatefulWidget {
 class _BuyTicketState extends State<BuyTicket> {
   late Train train = widget.user.tickets[0].train;
   WidgetGenerator wg = WidgetGenerator();
+  ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,9 @@ class _BuyTicketState extends State<BuyTicket> {
           body: BlocBuilder<ClassUpdateCubit, ClassUpdateState>(
             builder: (context, state) {
               return ListView(
+                  controller: controller,
                   children: wg.loadBuyTicketsListView(
-                      widget.user, train, widget.theme));
+                      widget.user, train, widget.theme, controller));
             },
           ),
         ),

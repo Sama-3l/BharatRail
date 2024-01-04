@@ -31,3 +31,5 @@ const double fontSizeHeading = 32.0;
 const double fontSizeLarge = 24.0;
 const double fontSizeMedium = 16.0;
 const double fontSizeSmall = 8.0;
+
+const int scrollDuration = 2000; // milliseconds

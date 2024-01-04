@@ -15,11 +15,13 @@ class SelectCoachDropDownMenu extends StatefulWidget {
       {super.key,
       required this.theme,
       required this.currClass,
-      required this.ticket});
+      required this.ticket,
+      required this.controller});
 
   final DarkTheme theme;
   final Class currClass;
   final Ticket ticket;
+  final ScrollController controller;
 
   @override
   State<SelectCoachDropDownMenu> createState() =>
@@ -48,10 +50,12 @@ class _SelectCoachDropDownMenuState extends State<SelectCoachDropDownMenu> {
               dropdownColor: widget.theme.surfaceGrey2,
               value: widget.ticket.coach!.coachNumber,
               onChanged: (newValue) {
-                widget.ticket.coach =
-                    widget.currClass.coaches.firstWhere((element) {
-                  return element.coachNumber == newValue!;
-                });
+                func.onCoachChange(
+                    widget.ticket,
+                    widget.currClass,
+                    newValue,
+                    widget.controller,
+                    MediaQuery.of(context).size.height * 2.11);
                 BlocProvider.of<ClassUpdateCubit>(context).onClassChange();
               },
               items: widget.currClass.coaches.map((coach) {
