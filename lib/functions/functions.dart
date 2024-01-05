@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:bharatrail/business_logic/cubits/ChangeDateCubit/change_date_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ClassUpdatedCubit/class_update_cubit_cubit.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
+import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/city.dart';
@@ -230,22 +231,22 @@ class Functions {
                       seatIndex < 1 ? seatIndex : (seatIndex) + 1]!,
                   theme: theme));
         }
-        seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1]
-            .add(
-                TicketGridItem(
-                    index: p,
-                    theme: theme,
-                    padding: checkCondition(
-                        ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&     // Increases spacing between adjacent compartments
-                            rowIndex != totalNumberOfRows - 1,                // In the same coach
-                        setPadding(left: 8, right: 8, bottom: 48),
-                        setPadding(left: 8, right: 8, bottom: 16)),
-                    currCoach: currCoach,
-                    user: user,
-                    currClass: currClass,
-                    train: train,
-                    seatTypeIndex: seatTypeLetter[
-                        seatIndex < 1 ? seatIndex : (seatIndex) + 1]!));
+        seats.seats[seatIndex < 1 ? seatIndex : (seatIndex) + 1].add(
+            TicketGridItem(
+                index: p,
+                theme: theme,
+                padding: checkCondition(
+                    ((p / numberOfSeatsInOneRow) % 2).floor() !=
+                            0 && // Increases spacing between adjacent compartments
+                        rowIndex != totalNumberOfRows - 1, // In the same coach
+                    setPadding(left: 8, right: 8, bottom: 48),
+                    setPadding(left: 8, right: 8, bottom: 16)),
+                currCoach: currCoach,
+                user: user,
+                currClass: currClass,
+                train: train,
+                seatTypeIndex: seatTypeLetter[
+                    seatIndex < 1 ? seatIndex : (seatIndex) + 1]!));
       }
       p++;
     }
@@ -400,5 +401,35 @@ class Functions {
       }
     }
     return tickets;
+  }
+
+  // Called when load trains button is pressed (sliver_app_bar.dart)
+  void loadTrains(User user, DarkTheme theme, BuildContext context) {
+    // This is just cause I can't build a searching algorithm
+    // And add multiple trains to test it on.
+    // I can do that but that wasn't the
+    // object here so I left it untouched right now
+    bool auth = false;
+    List<String> authCities = ["New Delhi", "Chennai", "Jhansi"];
+    auth = authCities.contains(user.arrCity.name) &&
+        authCities.contains(user.depCity.name);
+    if (!auth) {
+      final snackBar = SnackBar(
+        content: Text('Choose cities among New Delhi, Chennai, Jhansi please',
+            style: urbanist(theme.labelWhite)),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      BlocProvider.of<TrainUpdatedCubit>(context).notFound();
+    } else {
+      BlocProvider.of<TrainUpdatedCubit>(context).onTrainUpdated();
+    }
+  }
+
+  // Called when Complete Payment is pressed
+  void completePayment(BuildContext context, DarkTheme theme) {
+    final snackBar = SnackBar(
+      content: Text('Tickets Bought', style: urbanist(theme.labelWhite)),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

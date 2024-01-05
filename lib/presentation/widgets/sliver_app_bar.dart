@@ -2,12 +2,12 @@
 
 import 'package:bharatrail/assets/svgs/svg_code.dart';
 import 'package:bharatrail/business_logic/cubits/ExchangeCityCubit/exchange_city_cubit.dart';
-import 'package:bharatrail/business_logic/cubits/TrainUpdatedCubit/train_updated_cubit.dart';
 import 'package:bharatrail/constants/colors.dart';
 import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/functions/const_functions.dart';
+import 'package:bharatrail/functions/functions.dart';
 import 'package:bharatrail/presentation/widgets/city_select_date_widget.dart';
 import 'package:bharatrail/presentation/widgets/city_select_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +31,8 @@ class SlAppBar extends StatefulWidget {
 }
 
 class _SlAppBarState extends State<SlAppBar> {
+  Functions func = Functions();
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -98,33 +100,8 @@ class _SlAppBarState extends State<SlAppBar> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // This is just cause I can't build a searching algorithm
-                        // And add multiple trains to test it on.
-                        // I can do that but that wasn't the
-                        // object here so I left it untouched right now
-                        bool auth = false;
-                        List<String> authCities = [
-                          "New Delhi",
-                          "Chennai",
-                          "Jhansi"
-                        ];
-                        auth = authCities.contains(widget.user.arrCity.name) &&
-                            authCities.contains(widget.user.depCity.name);
-                        if (!auth) {
-                          final snackBar = SnackBar(
-                            content: Text(
-                                'Choose cities among New Delhi, Chennai, Jhansi please',
-                                style: urbanist(widget.theme.labelWhite)),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          BlocProvider.of<TrainUpdatedCubit>(context)
-                              .notFound();
-                        } else {
-                          BlocProvider.of<TrainUpdatedCubit>(context)
-                              .onTrainUpdated();
-                        }
-                      },
+                      onPressed: () =>
+                          func.loadTrains(widget.user, widget.theme, context),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: widget.theme.uiBlue,
                           shape: RoundedRectangleBorder(

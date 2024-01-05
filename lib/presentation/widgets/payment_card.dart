@@ -4,6 +4,7 @@ import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/functions/const_functions.dart';
+import 'package:bharatrail/functions/functions.dart';
 import 'package:bharatrail/functions/widget_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -19,6 +20,7 @@ class PaymentCard extends StatelessWidget {
   final User user;
   final Train train;
   final WidgetGenerator wg = WidgetGenerator();
+  final Functions func = Functions();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class PaymentCard extends StatelessWidget {
                   child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => func.completePayment(context, theme),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: theme.labelWhite,
                               shape: RoundedRectangleBorder(
