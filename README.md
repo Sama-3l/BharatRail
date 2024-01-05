@@ -170,25 +170,25 @@ class Ticket {
 
 This is not a real splash screen but I added one to smooth out the flow of the app. It shows the logo which I made (it's basically just urbanist font), and then it leads you into the home page.
 
-<img src="https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/splashScreen.jpg?raw=true" alt="Splash-Screen" width="150"/>
+<img src="ReadmeImages/splashScreen.jpg" alt="Splash-Screen" width="150"/>
 
 ### 4.2 Home Page
 
 The task didn't specify a home page but there always is just too much information that needs to be provided beforehand, that a ticketing system rarely ever comes without one. It made design sense to have a onboarding and provide a varied number of options there.
 
-<img src="https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/home_screen.jpg?raw=true" alt="Home-Screen" width="150"/>
+<img src="ReadmeImages/home_screen.jpg" alt="Home-Screen" width="150"/>
 
 ### 4.3 Main Page
 
 This is the main ticket selector page that displays train details and then allows you to select class of ticket and also which coach.
 
-<img src="https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/buy_ticket.jpg?raw=true" alt="Buy-Ticket" width="150"/>
+<img src="ReadmeImages/buy_ticket.jpg" alt="Buy-Ticket" width="150"/>
 
 ### 4.4 Payment Overlay
 
 Payment overlay for completing the seat bookings.
 
-<img src="https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/payment_screen.jpg?raw=true" alt="Payment-Screen" width="150"/>
+<img src="ReadmeImages/payment_screen.jpg" alt="Payment-Screen" width="150"/>
 
 ## 5. App Features
 
@@ -227,7 +227,7 @@ I will implement scroll back to top button too.
 There are total three types of seats and I went through some literature to finally learn, for myself too actually, what RAC, WL, etc. actually mean and I did my best to implement the same into the app.
 
 <div style="text-align:center">
-<img src="https://github.com/Sama-3l/BharatRail/blob/master/ReadmeImages/classes.png?raw=true" alt="Classes"/>
+<img src="ReadmeImages/classes.png" alt="Classes"/>
 </div>
 
 ---
