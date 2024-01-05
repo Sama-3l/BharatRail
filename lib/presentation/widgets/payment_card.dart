@@ -68,7 +68,7 @@ class PaymentCard extends StatelessWidget {
                   )),
               Container(
                 padding: setPadding(),
-                height: MediaQuery.of(context).size.height * 0.43,
+                height: MediaQuery.of(context).size.height * 0.41,
                 child: ListView.builder(
                     itemCount: user.tickets.isNotEmpty
                         ? user.tickets.length
@@ -80,7 +80,7 @@ class PaymentCard extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: setPadding(top: 16),
+                  padding: setPadding(top: 8, bottom: 16),
                   child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
