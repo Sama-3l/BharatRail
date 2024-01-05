@@ -210,7 +210,7 @@ class WidgetGenerator {
       Train train, List<Coach> coachesWithTickets) {
     List<Widget> children = [
       Padding(
-        padding: setPadding(top: 8, bottom: 16),
+        padding: setPadding(top: 16, bottom: 16),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
@@ -245,7 +245,26 @@ class WidgetGenerator {
     List<Widget> berthWidgets = [];
     for (var berth in tickets.entries) {
       if (berth.value.isNotEmpty) {
-        String seats = berth.value.toString();
+        List<Widget> berthSeats = [];
+        List<String> seats = berth.value;
+        int i = 0;
+        while (i < seats.length) {
+          var seatsInCurrentIndex;
+          if (i + 3 < seats.length) {
+            seatsInCurrentIndex = seats.getRange(i, i + 3).toString();
+          } else {
+            seatsInCurrentIndex =
+                seats.getRange(i, i + seats.length % 3).toString();
+          }
+          berthSeats.add(Padding(
+            padding: EdgeInsets.only(top: 4),
+            child: Text(
+              seatsInCurrentIndex.substring(1, seatsInCurrentIndex.length - 1),
+              style: urbanist(theme.labelWhite, weight: FontWeight.w800),
+            ),
+          ));
+          i += 3;
+        }
         berthWidgets.add(Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Row(
@@ -257,10 +276,9 @@ class WidgetGenerator {
                   style: urbanist(theme.labelWhite, weight: FontWeight.w300),
                 ),
               ),
-              Text(
-                seats.substring(1, seats.length - 1),
-                style: urbanist(theme.labelWhite, weight: FontWeight.w800),
-              )
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: berthSeats)
             ],
           ),
         ));
@@ -273,3 +291,45 @@ class WidgetGenerator {
     return children;
   }
 }
+
+// List<Widget> addBerthSeats(List<Widget> children, DarkTheme theme,
+//       List<Coach> coachesWithTickets, Train train, Ticket ticket) {
+//     Functions func = Functions();
+//     Map<String, List<String>> tickets = {
+//       "Lower": [],
+//       "Middle": [],
+//       "Upper": [],
+//       "Side": []
+//     };
+//     tickets = func.computeTicketsForPayment(
+//         tickets, coachesWithTickets, train, ticket);
+//     List<Widget> berthWidgets = [];
+//     for (var berth in tickets.entries) {
+//       if (berth.value.isNotEmpty) {
+//         String seats = berth.value.toString();
+//         berthWidgets.add(Padding(
+//           padding: EdgeInsets.only(top: 4.0),
+//           child: Row(
+//             children: [
+//               Padding(
+//                 padding: setPadding(left: 0, right: 24),
+//                 child: Text(
+//                   berth.key,
+//                   style: urbanist(theme.labelWhite, weight: FontWeight.w300),
+//                 ),
+//               ),
+//               Text(
+//                 seats.substring(1, seats.length - 1),
+//                 style: urbanist(theme.labelWhite, weight: FontWeight.w800),
+//               )
+//             ],
+//           ),
+//         ));
+//       }
+//     }
+//     children.add(Padding(
+//       padding: setPadding(top: 16, bottom: 16),
+//       child: Column(children: berthWidgets),
+//     ));
+//     return children;
+//   }

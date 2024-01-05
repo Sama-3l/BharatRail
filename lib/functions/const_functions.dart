@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 // Set fontstyle for the application
 TextStyle urbanist(Color color,
-    {double? fontsize = fontSizeMedium, FontWeight? weight = FontWeight.w400}) {
+    {double? fontsize = fontSizeMedium, FontWeight? weight = FontWeight.w400, double letterSpacing = 0}) {
   return TextStyle(
       color: color,
       fontFamily: 'Urbanist',
       fontSize: fontsize,
+      letterSpacing: letterSpacing,
       fontWeight: weight);
 }
 

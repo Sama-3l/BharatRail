@@ -39,7 +39,6 @@ class PaymentCard extends StatelessWidget {
                 child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Iconify(backwardButton, size: 32),
                       Spacer(),
                       Iconify(splashScreenLogo, size: 40),
                       Spacer()
@@ -69,7 +68,7 @@ class PaymentCard extends StatelessWidget {
                   )),
               Container(
                 padding: setPadding(),
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.43,
                 child: ListView.builder(
                     itemCount: user.tickets.isNotEmpty
                         ? user.tickets.length
@@ -78,6 +77,22 @@ class PaymentCard extends StatelessWidget {
                       return wg.checkWhetherSeatsPresent(
                           theme, user, train, index);
                     }),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: setPadding(top: 16),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.labelWhite,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                          child: Text("Complete Payment".toUpperCase(),
+                              style: urbanist(theme.surfaceElevated,
+                                  letterSpacing: 3, weight: FontWeight.w600)))),
+                ),
               )
             ],
           ),
