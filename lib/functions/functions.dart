@@ -37,6 +37,7 @@ class Functions {
   }
 
   // Initalizes user generally supposed to work on backend call
+  // (navigateToHome())
   User initializeUser() {
     return User(
         name: "Siddhartha Mishra",
@@ -235,8 +236,8 @@ class Functions {
                     index: p,
                     theme: theme,
                     padding: checkCondition(
-                        ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&
-                            rowIndex != totalNumberOfRows - 1,
+                        ((p / numberOfSeatsInOneRow) % 2).floor() != 0 &&     // Increases spacing between adjacent compartments
+                            rowIndex != totalNumberOfRows - 1,                // In the same coach
                         setPadding(left: 8, right: 8, bottom: 48),
                         setPadding(left: 8, right: 8, bottom: 16)),
                     currCoach: currCoach,
@@ -251,6 +252,7 @@ class Functions {
     return seats;
   }
 
+  // dynamic function to check cond and assign values
   dynamic checkCondition(bool cond, dynamic defaultItem, dynamic toggleItem) {
     return cond ? defaultItem : toggleItem;
   }
@@ -359,12 +361,25 @@ class Functions {
         curve: Curves.easeInOutCubic);
   }
 
-  // Function to remove the overlay container
+  // Function to show the overlay container (buy_ticket.dart)
+  void showOverlay(BuildContext context, OverlayEntry overlayEntry) {
+    OverlayState overlayState = Overlay.of(context);
+    overlayState.insert(overlayEntry);
+  }
+
+  // Function to remove the overlay container (buy_ticket.dart)
   void removeOverlay(OverlayEntry overlayEntry) {
     overlayEntry.remove();
   }
 
-  Map<String, List<String>> computeTicketsForPayment(Map<String, List<String>> tickets, List<Coach> coachesWithTickets, Train train, Ticket ticket){
+  // Puts the selected tickets in lists according to
+  // The berth that the seat number corresponds to
+  // (addBerthSeats())
+  Map<String, List<String>> computeTicketsForPayment(
+      Map<String, List<String>> tickets,
+      List<Coach> coachesWithTickets,
+      Train train,
+      Ticket ticket) {
     int numberOfSeatsInOneRow = allClasses[ticket.seatClass]!;
     for (int i = 0; i < coachesWithTickets.length; i++) {
       List<List<bool>> coachSeats = train.classes

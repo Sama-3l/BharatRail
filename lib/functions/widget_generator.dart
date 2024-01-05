@@ -59,7 +59,8 @@ class WidgetGenerator {
     }
   }
 
-  // Sets the font along with color depending on the type of tickets available ()
+  // Sets the font along with color depending on the type of tickets available 
+  // (train_class_tile.dart)
   Widget renderClassMetrics(List<int> metrics, DarkTheme theme) {
     if (metrics[0] != 0) {
       return Text("AVL ${metrics[0]}",
@@ -79,7 +80,7 @@ class WidgetGenerator {
   // Children widgets for buy tickets page since I needed to
   // Add dynamic number of children to the listview
   // I had to create a seperate function for the same.
-  // I haven't found a more efficient way to do this ()
+  // I haven't found a more efficient way to do this (buy_ticket.dart)
   List<Widget> loadBuyTicketsListView(User user, Train train, DarkTheme theme,
       ScrollController listViewScroller, Seats seats) {
     List<Widget> children = [];
@@ -142,7 +143,7 @@ class WidgetGenerator {
     return children;
   }
 
-  // The grid is basically 4 rows with Column widgets. ()
+  // The grid is basically 4 rows with Column widgets. (ticket_grid.dart)
   Widget loadSeatGrid(
       DarkTheme theme, User user, Seats seats, Coach currCoach) {
     List<Widget> children = [];
@@ -158,10 +159,8 @@ class WidgetGenerator {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
   }
 
-  // Function to show the overlay container
-  OverlayEntry showOverlay(
-      BuildContext context, User user, DarkTheme theme, Train train) {
-    OverlayState overlayState = Overlay.of(context);
+  // Creates the overlay (buy_ticket.dart)
+  OverlayEntry createOverlay(DarkTheme theme, User user, Train train) {
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) =>
           BlocBuilder<TicketSelectedCubit, TicketSelectedState>(
@@ -181,10 +180,12 @@ class WidgetGenerator {
         },
       ),
     );
-    overlayState.insert(overlayEntry);
     return overlayEntry;
   }
 
+  // Checks whether current class has any tickets
+  // That have been selected and render the tickets accordingly
+  // (ticket_grid.dart)
   Widget checkWhetherSeatsPresent(
       DarkTheme theme, User user, Train train, int index) {
     List<Coach> coaches = train.classes
@@ -231,6 +232,8 @@ class WidgetGenerator {
     return children;
   }
 
+  // Adds Row widgets for berths according to the ones booked 
+  // (Two lines above us)
   List<Widget> addBerthSeats(List<Widget> children, DarkTheme theme,
       List<Coach> coachesWithTickets, Train train, Ticket ticket) {
     Functions func = Functions();
@@ -291,45 +294,3 @@ class WidgetGenerator {
     return children;
   }
 }
-
-// List<Widget> addBerthSeats(List<Widget> children, DarkTheme theme,
-//       List<Coach> coachesWithTickets, Train train, Ticket ticket) {
-//     Functions func = Functions();
-//     Map<String, List<String>> tickets = {
-//       "Lower": [],
-//       "Middle": [],
-//       "Upper": [],
-//       "Side": []
-//     };
-//     tickets = func.computeTicketsForPayment(
-//         tickets, coachesWithTickets, train, ticket);
-//     List<Widget> berthWidgets = [];
-//     for (var berth in tickets.entries) {
-//       if (berth.value.isNotEmpty) {
-//         String seats = berth.value.toString();
-//         berthWidgets.add(Padding(
-//           padding: EdgeInsets.only(top: 4.0),
-//           child: Row(
-//             children: [
-//               Padding(
-//                 padding: setPadding(left: 0, right: 24),
-//                 child: Text(
-//                   berth.key,
-//                   style: urbanist(theme.labelWhite, weight: FontWeight.w300),
-//                 ),
-//               ),
-//               Text(
-//                 seats.substring(1, seats.length - 1),
-//                 style: urbanist(theme.labelWhite, weight: FontWeight.w800),
-//               )
-//             ],
-//           ),
-//         ));
-//       }
-//     }
-//     children.add(Padding(
-//       padding: setPadding(top: 16, bottom: 16),
-//       child: Column(children: berthWidgets),
-//     ));
-//     return children;
-//   }

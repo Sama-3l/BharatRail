@@ -5,7 +5,7 @@ import 'package:bharatrail/presentation/widgets/train_class_tile.dart';
 import 'package:flutter/material.dart';
 
 class SelectClass extends StatelessWidget {
-  SelectClass(
+  const SelectClass(
       {super.key,
       required this.train,
       required this.theme,

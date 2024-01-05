@@ -7,6 +7,7 @@ import 'package:bharatrail/data/models/seats.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/functions/const_functions.dart';
+import 'package:bharatrail/functions/functions.dart';
 import 'package:bharatrail/functions/widget_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class BuyTicket extends StatefulWidget {
 class _BuyTicketState extends State<BuyTicket> {
   late Train train = widget.user.tickets.last.train;
   WidgetGenerator wg = WidgetGenerator();
+  Functions func = Functions();
   ScrollController controller = ScrollController();
   Seats seats = Seats();
   late OverlayEntry overlayEntry;
@@ -32,6 +34,7 @@ class _BuyTicketState extends State<BuyTicket> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    overlayEntry = wg.createOverlay(widget.theme, widget.user, train);
     seats.init(seats);
   }
 
@@ -58,10 +61,7 @@ class _BuyTicketState extends State<BuyTicket> {
             },
           ),
           floatingActionButton: ElevatedButton(
-              onPressed: () {
-                overlayEntry =
-                    wg.showOverlay(context, widget.user, widget.theme, train);
-              },
+              onPressed: () => func.showOverlay(context, overlayEntry),
               style: ElevatedButton.styleFrom(
                   backgroundColor: widget.theme.labelWhite,
                   shape: RoundedRectangleBorder(

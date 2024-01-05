@@ -4,7 +4,6 @@ class Cities {
   List<City> cities = [];
 
   // Initiate cities for now since I couldn't find api to get all cities
-  // Time Complex : O(n)
   Cities initiateCities() {
     List<String> cities = [
       'New Delhi',
