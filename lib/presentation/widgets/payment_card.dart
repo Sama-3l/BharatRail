@@ -54,7 +54,7 @@ class PaymentCard extends StatelessWidget {
                       style: urbanist(theme.labelWhite,
                           fontsize: fontSizeLarge, weight: FontWeight.w200))),
               Padding(
-                  padding: setPadding(top: 16),
+                  padding: setPadding(top: 16, bottom: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
