@@ -4,12 +4,12 @@ import 'package:bharatrail/constants/constants.dart';
 import 'package:bharatrail/data/models/train.dart';
 import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/functions/const_functions.dart';
-import 'package:bharatrail/presentation/widgets/payment_tickets_list_item.dart';
+import 'package:bharatrail/functions/widget_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 
 class PaymentCard extends StatelessWidget {
-  const PaymentCard(
+  PaymentCard(
       {super.key,
       required this.theme,
       required this.user,
@@ -18,6 +18,7 @@ class PaymentCard extends StatelessWidget {
   final DarkTheme theme;
   final User user;
   final Train train;
+  final WidgetGenerator wg = WidgetGenerator();
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +75,8 @@ class PaymentCard extends StatelessWidget {
                         ? user.tickets.length
                         : 0, // Adjust the number of items as needed
                     itemBuilder: (context, index) {
-                      return TicketsListTile(
-                          theme: theme,
-                          ticket: user.tickets[index],
-                          user: user,
-                          train: train);
+                      return wg.checkWhetherSeatsPresent(
+                          theme, user, train, index);
                     }),
               )
             ],

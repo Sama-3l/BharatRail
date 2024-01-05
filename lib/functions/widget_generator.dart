@@ -10,9 +10,11 @@ import 'package:bharatrail/data/models/user.dart';
 import 'package:bharatrail/data/repostitories/cities.dart';
 import 'package:bharatrail/data/repostitories/trains.dart';
 import 'package:bharatrail/functions/const_functions.dart';
+import 'package:bharatrail/functions/functions.dart';
 import 'package:bharatrail/presentation/widgets/buy_tickets_header.dart';
 import 'package:bharatrail/presentation/widgets/city_select_date_widget.dart';
 import 'package:bharatrail/presentation/widgets/payment_card.dart';
+import 'package:bharatrail/presentation/widgets/payment_tickets_list_item.dart';
 import 'package:bharatrail/presentation/widgets/select_coach_drop_down.dart';
 import 'package:bharatrail/presentation/widgets/sliver_app_bar.dart';
 import 'package:bharatrail/presentation/widgets/ticket_grid.dart';
@@ -183,9 +185,29 @@ class WidgetGenerator {
     return overlayEntry;
   }
 
+  Widget checkWhetherSeatsPresent(
+      DarkTheme theme, User user, Train train, int index) {
+    List<Coach> coaches = train.classes
+        .firstWhere((element) => element.name == user.tickets[index].seatClass)
+        .coaches
+        .where((element) {
+      return element.seats[1].where((element) => element).toList().isNotEmpty;
+    }).toList();
+    if (coaches.isNotEmpty) {
+      return TicketsListTile(
+          theme: theme,
+          ticket: user.tickets[index],
+          user: user,
+          train: train,
+          coachesWithTickets: coaches);
+    } else {
+      return Container();
+    }
+  }
+
   // Used to make the card which shows all the tickets in Payment overlay (payment_tickets_list_item.dart)
-  List<Widget> renderPaymentTicketsCard(
-      Ticket ticket, DarkTheme theme, Train train) {
+  List<Widget> renderPaymentTicketsCard(Ticket ticket, DarkTheme theme,
+      Train train, List<Coach> coachesWithTickets) {
     List<Widget> children = [
       Padding(
         padding: setPadding(top: 8, bottom: 16),
@@ -204,18 +226,50 @@ class WidgetGenerator {
         ]),
       )
     ];
-    Map<String, List<int>> tickets = {
+    children =
+        addBerthSeats(children, theme, coachesWithTickets, train, ticket);
+    return children;
+  }
+
+  List<Widget> addBerthSeats(List<Widget> children, DarkTheme theme,
+      List<Coach> coachesWithTickets, Train train, Ticket ticket) {
+    Functions func = Functions();
+    Map<String, List<String>> tickets = {
       "Lower": [],
       "Middle": [],
       "Upper": [],
       "Side": []
     };
-    // for (int i = 0; i < ticket.coach.seats[0].length; i++) {
-    //   if (!ticket.coach.seats[0][i] && ticket.coach.seats[1][i]) {
-    //     tickets[seatType[ticket.seatTypeIndex]]!.add(i);
-    //   }
-    // }
-    print(tickets);
+    tickets = func.computeTicketsForPayment(
+        tickets, coachesWithTickets, train, ticket);
+    List<Widget> berthWidgets = [];
+    for (var berth in tickets.entries) {
+      if (berth.value.isNotEmpty) {
+        String seats = berth.value.toString();
+        berthWidgets.add(Padding(
+          padding: EdgeInsets.only(top: 4.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: setPadding(left: 0, right: 24),
+                child: Text(
+                  berth.key,
+                  style: urbanist(theme.labelWhite, weight: FontWeight.w300),
+                ),
+              ),
+              Text(
+                seats.substring(1, seats.length - 1),
+                style: urbanist(theme.labelWhite, weight: FontWeight.w800),
+              )
+            ],
+          ),
+        ));
+      }
+    }
+    children.add(Padding(
+      padding: setPadding(top: 16, bottom: 16),
+      child: Column(children: berthWidgets),
+    ));
     return children;
   }
 }

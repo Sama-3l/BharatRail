@@ -363,4 +363,27 @@ class Functions {
   void removeOverlay(OverlayEntry overlayEntry) {
     overlayEntry.remove();
   }
+
+  Map<String, List<String>> computeTicketsForPayment(Map<String, List<String>> tickets, List<Coach> coachesWithTickets, Train train, Ticket ticket){
+    int numberOfSeatsInOneRow = allClasses[ticket.seatClass]!;
+    for (int i = 0; i < coachesWithTickets.length; i++) {
+      List<List<bool>> coachSeats = train.classes
+          .firstWhere((element) => element.name == ticket.seatClass)
+          .coaches
+          .firstWhere((element) =>
+              element.coachNumber == coachesWithTickets[i].coachNumber)
+          .seats;
+      for (int j = 0; j < coachSeats[0].length; j++) {
+        if (!coachSeats[0][j] && coachSeats[1][j]) {
+          int seatIndex = j % numberOfSeatsInOneRow;
+          if (numberOfSeatsInOneRow < 4) {
+            seatIndex = seatIndex < 1 ? seatIndex : (seatIndex) + 1;
+          }
+          tickets[seatType[seatIndex]]!.add(
+              "${coachesWithTickets[i].coachNumber}-${(j + 1).toString().padLeft(2, '0')}");
+        }
+      }
+    }
+    return tickets;
+  }
 }

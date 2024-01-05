@@ -25,11 +25,11 @@ Map<int, String> seatTypeLetter = {
 };
 
 // Each letter correspond to their index in the seats list in Seats object
-Map<String, String> seatType = {
-  "L" : "Lower",
-  "M" : "Middle",
-  "U" : "Upper",
-  "SL/SU" : "Side"
+Map<int, String> seatType = {
+  0 : "Lower",
+  1 : "Middle",
+  2 : "Upper",
+  3 : "Side"
 };
 
 const int numberOfCompartmentsInBogey = 9;

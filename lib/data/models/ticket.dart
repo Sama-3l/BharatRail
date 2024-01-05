@@ -6,7 +6,6 @@ class Ticket {
   String seatClass;
   Coach coach;
   Train train;
-  String? seatTypeIndex;
 
-  Ticket({this.seatNumber, this.seatTypeIndex, required this.seatClass, required this.coach, required this.train});
+  Ticket({this.seatNumber, required this.seatClass, required this.coach, required this.train});
 }
