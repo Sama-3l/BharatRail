@@ -59,7 +59,7 @@ class WidgetGenerator {
     }
   }
 
-  // Sets the font along with color depending on the type of tickets available 
+  // Sets the font along with color depending on the type of tickets available
   // (train_class_tile.dart)
   Widget renderClassMetrics(List<int> metrics, DarkTheme theme) {
     if (metrics[0] != 0) {
@@ -232,7 +232,7 @@ class WidgetGenerator {
     return children;
   }
 
-  // Adds Row widgets for berths according to the ones booked 
+  // Adds Row widgets for berths according to the ones booked
   // (Two lines above us)
   List<Widget> addBerthSeats(List<Widget> children, DarkTheme theme,
       List<Coach> coachesWithTickets, Train train, Ticket ticket) {
@@ -251,9 +251,10 @@ class WidgetGenerator {
         List<Widget> berthSeats = [];
         List<String> seats = berth.value;
         int i = 0;
+        print(berth.value);
         while (i < seats.length) {
           var seatsInCurrentIndex;
-          if (i + 3 < seats.length) {
+          if (i + 3 <= seats.length) {
             seatsInCurrentIndex = seats.getRange(i, i + 3).toString();
           } else {
             seatsInCurrentIndex =
@@ -269,11 +270,11 @@ class WidgetGenerator {
           i += 3;
         }
         berthWidgets.add(Padding(
-          padding: EdgeInsets.only(top: 4.0),
+          padding: EdgeInsets.only(top: 8),
           child: Row(
             children: [
               Padding(
-                padding: setPadding(left: 0, right: 24),
+                padding: setPadding(left: 0, right: 36),
                 child: Text(
                   berth.key,
                   style: urbanist(theme.labelWhite, weight: FontWeight.w300),
