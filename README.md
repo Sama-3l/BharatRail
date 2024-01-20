@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to Bharatrail, your innovative solution for hassle-free train ticket purchases. This README provides essential information to get started with the demo app.
+Welcome to Bharatrail, your innovative solution for hassle-free train ticket purchases.
 
 ## Features
 
